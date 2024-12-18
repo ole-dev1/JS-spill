@@ -3,6 +3,30 @@
     padding: 0;
     box-sizing: border-box;
 }
-img {
-    size: 100%;
+body {
+    min-height: 100vh;
+    min-width: 100vh;
+    background-color: black;
+    color: white;
+  }
+  h1 {
+    text-align: center;
+    font-weight: 700;
+    font-size: 50px;
+}
+p {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
+.start {
+    display: flex;
+    justify-content: center;
+}
+.start button {
+    padding: 8px 16px;
+    font-size: 30px;
+    border-radius: 10px;
+    background-color: #27ae60;
+    color: white;
 }
