@@ -1,54 +1,55 @@
 const container = document.querySelector(".container");
+const scoreElement = document.querySelector(".score");
 let cards = [];
-let firstCard, secondCard;
+let firstCard = null; 
+let secondCard = null;
 let lockBoard = false;
 let score = 0;
 
-document.querySelector(".score").textContent = score;
 
 fetch("./kort.json")
-  .then( res => res.json())
+  .then( res => {
+    if (!res.ok) throw new Error("Failed to load kort.json");
+    return res.json();
+  })
+  
   .then( data =>  {
-    cards = [...data, ...data];
+    cards = [...data, ...data]; //To kort for par
     shuffleCards();
     generateCards();
-  });
+  })
+  .catch(err => console.error("Error loading cards:", err));
 
 function shuffleCards() {
-  let currentIndex = cards.length,
-    randomIndex,
-    temporaryValue;
-  while (currentIndex !== 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    temporaryValue = cards[currentIndex];
-    cards[currentIndex] = cards[randomIndex];
-    cards[randomIndex] = temporaryValue;
-  }
+    for (let i = cards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [cards[i], cards[j]] = [cards[j], cards[i]];
+   }
 }
 
 function generateCards() {
-  for (let card of cards) {
-    const cardElement = document.createElement("div");
-    cardElement.classList.add("card");
+  container.innerHTML = ""; // Tømmer container før den lager kort 
+  cards.forEach(card => {
+      const cardElement = document.createElement("div");
+      cardElement.classList.add("card");
+      cardElement.setAttribute("data-name", card.name);
 
-    cardElement.classList.add("back");
+      cardElement.innerHTML = `
+          <div class="card-inner">
+              <div class="card-front">
+                  <img src="${card.image}" alt="${card.name}" />
+              </div>
+              <div class="card-back"></div>
+          </div>
+      `;
 
-    cardElement.setAttribute("data-name", card.name);
-    cardElement.innerHTML = `
-      <div class="front">
-        <img class="front-image" src=${card.image} />
-      </div>
-      <div class="back"></div>
-    `;
-    Container.appendChild(cardElement);
+    container.appendChild(cardElement);
     cardElement.addEventListener("click", flipCard);
-  }
+  });
 }
 
 function flipCard() {
-  if (lockBoard) return;
-  if (this === firstCard) return;
+  if (lockBoard || this === firstCard) return;
 
   this.classList.add("flipped");
 
@@ -59,14 +60,14 @@ function flipCard() {
 
   secondCard = this;
   score++;
-  document.querySelector(".score").textContent = score;
+  scoreElement.textContent = score;
   lockBoard = true;
 
   checkForMatch();
 }
 
 function checkForMatch() {
-  let isMatch = firstCard.dataset.name === secondCard.dataset.name;
+  const isMatch = firstCard.dataset.name === secondCard.dataset.name;
 
   isMatch ? disableCards() : unflipCards();
 }
@@ -96,7 +97,6 @@ function restart() {
   resetBoard();
   shuffleCards();
   score = 0;
-  document.querySelector(".score").textContent = score;
-  Container.innerHTML = "";
+  scoreElement.textContent = score;
   generateCards();
 }
