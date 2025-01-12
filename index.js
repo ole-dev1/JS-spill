@@ -1,4 +1,4 @@
-const Container = document.querySelector(".container");
+const container = document.querySelector(".container");
 let cards = [];
 let firstCard, secondCard;
 let lockBoard = false;
