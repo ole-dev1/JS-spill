@@ -1,0 +1,38 @@
+[
+    {
+        "image":"bilder/pære.jpg",
+        "name": "pære"
+    },
+    {
+        "image":"bilder/plumme.png",
+        "name": "plumme"
+    },
+    {
+        "image":"bilder/melon.png",
+        "name": "melon"
+    },
+    {
+        "image":"bilder/kiwi.jpg",
+        "name": "kiwi"
+    },
+    {
+        "image":"bilder/jordbær.webp",
+        "name": "jordbær"
+    },
+    {
+        "image":"bilder/grønnteple.jpg",
+        "name": "grønnteple"
+    },
+    {
+        "image":"bilder/eple.webp",
+        "name": "eple"
+    },
+    {
+        "image":"bilder/drue.jpg",
+        "name": "drue"
+    },     
+    {
+        "image":"bilder/annanas.png",
+        "name": "annanas"
+    }
+]
